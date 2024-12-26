@@ -146,8 +146,12 @@ def scrape(filtered_url):
             chrome_options = Options()
             chrome_options.add_argument('--headless')
             chrome_options.add_argument('--ignore-certificate-errors')
+            chrome_options.add_argument('--remote-debugging-pipe')
+            chrome_options.add_argument('--disable-dev-shm-usage')
+            chrome_options.add_argument('no-sandbox')
+
             # service = ChromeService(ChromeDriverManager().install(), log_path=os.devnull)
-            driver = webdriver.Chrome(options=chrome_options)
+            driver = webdriver.Chrome(service = ChromeService(ChromeDriverManager().install()), options=chrome_options)
 
             # Saytı açın və səhifənin tam yüklənməsini gözləyin
             driver.get(url)
