@@ -212,7 +212,9 @@ def scrape(filtered_url):
 
     async def main():
         chrome_options = Options()
+        chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-dev-shm-usage')
 
         # Initialize CSV file if it doesn't exist
         if not os.path.exists("tapaz.csv"):
