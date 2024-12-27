@@ -13,7 +13,7 @@ from pydantic import BaseModel
 load_dotenv()
 app = FastAPI()
 
-openai.api_key = os.getenv('openai_key')
+# openai.api_key = os.getenv('openai_key')
 
 class SearchRequest(BaseModel):
     user_input: str
@@ -37,6 +37,7 @@ def search(request: SearchRequest):
         features_dict = ast.literal_eval(response['choices'][0]['message']['content'])
 
     except Exception as e:
+        features_dict = {"item": "iphone 13", "price_min": "0", "price_max": "2000"}
         raise HTTPException(status_code=500, detail=f"OpenAI API Error: {str(e)}")
 
     if features_dict['category'] == 'house':
