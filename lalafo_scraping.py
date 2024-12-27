@@ -128,7 +128,9 @@ def scrape(filtered_url):
     def extract_property_info(url, item_id):
         try:
             chrome_options = Options()
+            chrome_options.add_argument('--no-sandbox')
             chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--disable-dev-shm-usage')
             # service = ChromeService(ChromeDriverManager().install(), log_path=os.devnull)
             driver = webdriver.Chrome(options=chrome_options)
 
@@ -180,7 +182,9 @@ def scrape(filtered_url):
                 pass
     async def main():
         chrome_options = Options()
+        chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-dev-shm-usage')
 
         if not os.path.exists("lalafo.csv"):
             pd.DataFrame().to_csv("lalafo.csv", sep=',', encoding='utf-8', mode='w', index=False)

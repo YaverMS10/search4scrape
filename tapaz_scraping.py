@@ -143,13 +143,12 @@ def scrape(filtered_url):
 
     def extract_property_info(url, item_id):
         try:
-            
             chrome_options = Options()
-            chrome_options.add_argument('--headless')
             chrome_options.add_argument('--no-sandbox')
+            chrome_options.add_argument('--headless')
             chrome_options.add_argument('--disable-dev-shm-usage')
             # service = ChromeService(ChromeDriverManager().install(), log_path=os.devnull)
-            driver = webdriver.Chrome("/home/ubuntu/search4scrape/chromedriver-linux64/chromedriver", options=chrome_options)
+            driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
 
             # Saytı açın və səhifənin tam yüklənməsini gözləyin
             driver.get(url)
