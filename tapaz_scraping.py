@@ -143,6 +143,7 @@ def scrape(filtered_url):
 
     def extract_property_info(url, item_id):
         try:
+            
             chrome_options = Options()
             chrome_options.add_argument('--headless')
             chrome_options.add_argument('--ignore-certificate-errors')
