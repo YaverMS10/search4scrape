@@ -13,7 +13,7 @@ from pydantic import BaseModel
 load_dotenv()
 app = FastAPI()
 
-# openai.api_key = os.getenv('openai_key')
+openai.api_key = os.getenv('openai_key')
 
 class SearchRequest(BaseModel):
     user_input: str
