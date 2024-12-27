@@ -15,11 +15,8 @@ app = FastAPI()
 
 openai.api_key = os.getenv('openai_key')
 
-# class SearchRequest(BaseModel):
-#     user_input: str
-
 class SearchRequest(BaseModel):
-    user_input: dict
+    user_input: str
 
 class ScrapingResult(BaseModel):
     source: str
@@ -28,35 +25,24 @@ class ScrapingResult(BaseModel):
 with open('instructions.txt', 'r') as file:
     instruction = file.read()
 
-# @app.post('/search', response_model=ScrapingResult)
-# def search(request: SearchRequest):
-#     user_input = request.user_input
-
-#     try:
-#         response = openai.ChatCompletion.create(
-#               model="gpt-4o-mini",
-#               messages=[{"role": "system", "content": instruction},
-#                         {"role": "user", "content": user_input}])
-#         features_dict = ast.literal_eval(response['choices'][0]['message']['content'])
-
-#     except Exception as e:
-#         raise RuntimeError(f"Error occurred while processing the request: {str(e)}") from e
-
-#     if features_dict['category'] == 'house':
-#         return handle_house_search(features_dict)
-#     elif features_dict['category'] == 'other':
-#         return handle_other_search(features_dict)
-#     else:
-#         raise HTTPException(status_code=400, detail="Invalid category")
-
 @app.post('/search', response_model=ScrapingResult)
 def search(request: SearchRequest):
     user_input = request.user_input
 
-    if user_input['category'] == 'house':
-        return handle_house_search(user_input)
-    elif user_input['category'] == 'other':
-        return handle_other_search(user_input)
+    try:
+        response = openai.ChatCompletion.create(
+              model="gpt-4o-mini",
+              messages=[{"role": "system", "content": instruction},
+                        {"role": "user", "content": user_input}])
+        features_dict = ast.literal_eval(response['choices'][0]['message']['content'])
+
+    except Exception as e:
+        raise RuntimeError(f"Error occurred while processing the request: {str(e)}") from e
+
+    if features_dict['category'] == 'house':
+        return handle_house_search(features_dict)
+    elif features_dict['category'] == 'other':
+        return handle_other_search(features_dict)
     else:
         raise HTTPException(status_code=400, detail="Invalid category")
 
